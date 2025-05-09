@@ -1,0 +1,80 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Available Quizzes";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 flex-column flex-sm-row gap-3 index-title">
+    <h2 class="mb-0">Available Quizzes</h2>
+    <a asp-page="/Quizzes/Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-1"></i> Create Quiz
+    </a>
+</div>
+
+
+@if (!Model.Quizzes.Any())
+{
+    <div class="alert alert-info text-center">
+        No quizzes available at the moment.
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var quiz in Model.Quizzes)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm border-0 rounded-2 p-2">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold">@quiz.Title</h5>
+
+                        <p class="card-text text-muted flex-grow-1">
+                            @(string.IsNullOrWhiteSpace(quiz.Description)
+                                ? "No description available."
+                                : (quiz.Description.Length > 100
+                                ? quiz.Description[..97] + "..."
+                                : quiz.Description))
+                        </p>
+
+                        <div class="d-flex justify-content-between text-muted small mt-2">
+                            <span class="fs-6"><i class="bi bi-question-circle me-1"></i> @quiz.QuizQuestions.Count questions</span>
+                            @if (quiz.TimeLimit.HasValue)
+                            {
+                                <span class="fs-6"><i class="bi bi-clock me-1"></i> @quiz.TimeLimit.Value</span>
+                            }
+                        </div>
+
+                    </div>
+                    <div class="card-footer bg-white border-0 rounded-2 mb-2">
+                        <div class="d-flex flex-wrap gap-2 justify-content-center">
+                            <a asp-page="/Quizzes/Edit" asp-route-id="@quiz.Id" class="btn btn-sm btn-secondary">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            <a asp-page="/Quizzes/Start" asp-route-id="@quiz.Id" class="btn btn-sm btn-primary">
+                                <i class="bi bi-play-circle"></i> Take
+                            </a>
+                            <a asp-page="/Quizzes/Delete" asp-route-id="@quiz.Id" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    @if (Model.PageCount > 1)
+    {
+        <div aria-label="Pagination" class="mt-5">
+            <nav>
+                <ul class="pagination jutstify-content-center mt-4">
+                    @for (var i = 1; i <= Model.PageCount; i++)
+                    {
+                        <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                            <a class="page-link" asp-route-pageIndex="@i">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    }
+}

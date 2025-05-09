@@ -1,0 +1,43 @@
+﻿@page "{id:guid}"
+@model DeleteModel
+@{
+    ViewData["Title"] = "Delete Question";
+}
+
+<div class="card shadow-sm border-0 rounded-2 p-2">
+    <div class="card-body">
+        <h2 class="text-danger mb-4">Delete Question</h2>
+
+        @if (Model.Question != null)
+        {
+            <div class="alert @(Model.IsInUse ? "alert-danger" : "alert-warning")">
+                @if (Model.IsInUse)
+                {
+                    <p class="mb-1"><strong>This question is currently used in one or more quizzes and cannot be deleted.</strong></p>
+                }
+                else
+                {
+                    <p class="mb-1">Are you sure you want to delete the following question?</p>
+                }
+
+                <p class="fw-semibold mt-3 mb-1">@Model.Question.Text</p>
+
+                <ul class="list-group list-group-flush mt-3 mb-2">
+                    @foreach (var choice in Model.Question.Choices)
+                    {
+                        <li class="list-group-item @(choice.IsCorrect ? "text-success fw-bold" : "")">
+                            @choice.Text
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <form method="post" class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-danger" @(Model.IsInUse ? "disabled" : "")>
+                    <i class="bi bi-trash"></i> Yes, Delete
+                </button>
+                <a asp-page="/Questions/Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        }
+    </div>
+</div>

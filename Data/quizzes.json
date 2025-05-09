@@ -1,0 +1,456 @@
+[
+  {
+    "Title": "Animals Knowledge",
+    "Description": "Animals Knowledge quiz to test general knowledge.",
+    "TimeLimit": "00:10:00",
+    "Questions": [
+      {
+        "Text": "Which of the following animals are mammals?",
+        "Choices": [
+          {
+            "Text": "Frog",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Elephant",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Whale",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Penguin",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which animals can fly?",
+        "Choices": [
+          {
+            "Text": "Bat",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Penguin",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Eagle",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Ostrich",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "What is the fastest land animal?",
+        "Choices": [
+          {
+            "Text": "Greyhound",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Cheetah",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Lion",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Horse",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": false
+      },
+      {
+        "Text": "Which animals live in the ocean?",
+        "Choices": [
+          {
+            "Text": "Tiger",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Camel",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Shark",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Dolphin",
+            "IsCorrect": true
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "What do herbivores eat?",
+        "Choices": [
+          {
+            "Text": "Insects",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Plants",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Meat",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Fish",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": false
+      },
+      {
+        "Text": "Which are reptiles?",
+        "Choices": [
+          {
+            "Text": "Turtle",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Crocodile",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Snake",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Kangaroo",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which animals are nocturnal?",
+        "Choices": [
+          {
+            "Text": "Dog",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Owl",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Bat",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Cow",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which animals lay eggs?",
+        "Choices": [
+          {
+            "Text": "Dog",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Chicken",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Cat",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Platypus",
+            "IsCorrect": true
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "What do carnivores eat?",
+        "Choices": [
+          {
+            "Text": "Meat",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Rocks",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Sand",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Plants",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": false
+      },
+      {
+        "Text": "Which animals are known for migrating long distances?",
+        "Choices": [
+          {
+            "Text": "Penguin",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Monarch Butterfly",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Cow",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Bear",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      }
+    ]
+  },
+  {
+    "Title": "Countries Knowledge",
+    "Description": "Countries Knowledge quiz to test general knowledge.",
+    "TimeLimit": "00:10:00",
+    "Questions": [
+      {
+        "Text": "Which of these countries are in Europe?",
+        "Choices": [
+          {
+            "Text": "France",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Japan",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Germany",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Brazil",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which countries are landlocked?",
+        "Choices": [
+          {
+            "Text": "Austria",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Switzerland",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Australia",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Canada",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which of these are Nordic countries?",
+        "Choices": [
+          {
+            "Text": "Spain",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Norway",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Sweden",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Italy",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which countries use the Euro?",
+        "Choices": [
+          {
+            "Text": "Germany",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Poland",
+            "IsCorrect": false
+          },
+          {
+            "Text": "United Kingdom",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Italy",
+            "IsCorrect": true
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which countries are in Asia?",
+        "Choices": [
+          {
+            "Text": "Egypt",
+            "IsCorrect": false
+          },
+          {
+            "Text": "India",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Mexico",
+            "IsCorrect": false
+          },
+          {
+            "Text": "China",
+            "IsCorrect": true
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which are the largest countries by area?",
+        "Choices": [
+          {
+            "Text": "India",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Canada",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Argentina",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Russia",
+            "IsCorrect": true
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which countries have a monarchy?",
+        "Choices": [
+          {
+            "Text": "USA",
+            "IsCorrect": false
+          },
+          {
+            "Text": "United Kingdom",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Germany",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Japan",
+            "IsCorrect": true
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which countries are in Africa?",
+        "Choices": [
+          {
+            "Text": "Kenya",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Thailand",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Chile",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Nigeria",
+            "IsCorrect": true
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which countries have deserts?",
+        "Choices": [
+          {
+            "Text": "Egypt",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Germany",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Saudi Arabia",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Brazil",
+            "IsCorrect": false
+          }
+        ],
+        "IsMultiSelect": true
+      },
+      {
+        "Text": "Which countries are island nations?",
+        "Choices": [
+          {
+            "Text": "Russia",
+            "IsCorrect": false
+          },
+          {
+            "Text": "France",
+            "IsCorrect": false
+          },
+          {
+            "Text": "Japan",
+            "IsCorrect": true
+          },
+          {
+            "Text": "Philippines",
+            "IsCorrect": true
+          }
+        ],
+        "IsMultiSelect": true
+      }
+    ]
+  }
+]

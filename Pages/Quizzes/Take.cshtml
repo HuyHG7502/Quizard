@@ -1,0 +1,185 @@
+﻿@page "{id:guid}"
+@model TakeModel
+@{
+    ViewData["Title"] = "Take Quiz";
+}
+
+<div class="card shadow-sm border-0 rounded-2 mb-4 p-2">
+    <div class="card-body">
+        <h2 class="card-title fw-bold">@Model.AttemptVm.Title</h2>
+
+        @if (!string.IsNullOrWhiteSpace(Model.AttemptVm.Description))
+        {
+            <p class="card-text text-muted">@Model.AttemptVm.Description</p>
+        }
+
+        @if (Model.AttemptVm.TimeLimit.HasValue)
+        {
+            <div class="alert alert-info mt-3 mb-0" id="quiz-timer">
+                <i class="bi bi-clock me-2"></i>
+                Time Remaining:
+                <span id="time-remaining" class="ms-1 fw-semibold text-dark"></span>
+            </div>
+        }
+    </div>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="AttemptVm.AttemptId" />
+
+    <div class="vstack gap-4">
+        @for (int i = 0; i < Model.AttemptVm.Questions.Count; i++)
+        {
+            var question = Model.AttemptVm.Questions[i];
+
+            <div class="card shadow-sm border-0 rounded-2 p-2">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-column flex-sm-row gap-3">
+                        <h6 class="mb-0 me-3 fw-semibold">@(i + 1). @question.Text</h6>
+                        <span class="badge @(question.IsMultiSelect ? "bg-warning text-dark" : "bg-info text-dark")">
+                            @(question.IsMultiSelect ? "Multiple Choices" : "Single Choice")
+                        </span>
+                    </div>
+
+                    <div class="row row-cols-1 row-cols-sm-2 g-2">
+                        @for (int j = 0; j < question.Choices.Count; j++)
+                        {
+                            var choice = question.Choices[j];
+                            var inputType = question.IsMultiSelect ? "checkbox" : "radio";
+                            var name = $"AttemptVm.Questions[{i}].SelectedChoiceIds";
+
+                            <div class="col">
+                                <div class="border rounded p-2 d-flex align-items-center gap-2 bg-white">
+                                    <input type="@inputType"
+                                        class="form-check-input"
+                                        name="@name"
+                                        value="@choice.ChoiceId"
+                                        id="choice_@choice.ChoiceId"
+                                        checked="@(question.SelectedChoiceIds.Contains(choice.ChoiceId))" />
+                                    <label class="form-check-label mb-0 fs-6" for="choice_@choice.ChoiceId">
+                                        @choice.Text
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <input type="hidden" asp-for="AttemptVm.Questions[@i].QuestionId" />
+                    <input type="hidden" asp-for="AttemptVm.Questions[@i].Order" />
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-send me-1"></i> Submit Quiz
+        </button>
+    </div>
+</form>
+
+@section Scripts {
+    @if (Model.AttemptVm.TimeLimit.HasValue)
+    {
+        <script>
+            // Timer logic
+            const totalSeconds = @Model.RemainingTime ?? (@Model.AttemptVm.TimeLimit.Value * 60) ?? 0;
+            let remainingSeconds = totalSeconds;
+
+            const timerDisplay = document.getElementById("time-remaining");
+            const timerContainer = document.getElementById("quiz-timer");
+            const submitButton = document.querySelector('button[type="submit"]');
+
+            function updateTimer() {
+                const minutes = Math.floor(remainingSeconds / 60);
+                const seconds = remainingSeconds % 60;
+
+                if (remainingSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerContainer.classList.remove("alert-info");
+                    timerContainer.classList.add("alert-danger");
+
+                    timerDisplay.textContent = "Time is up! Submitting...";
+
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.innerHTML = '<i class="bi bi-lock-fill me-1"></i> Quiz Locked';
+                        submitButton.classList.add("btn-secondary");
+                        submitButton.classList.remove("btn-primary");
+                    }
+
+                    document.querySelector("form").submit();
+
+                    return;
+                }
+
+                // Show warning when 1 minute left
+                if (remainingSeconds <= 60) {
+                    timerContainer.classList.remove("alert-info");
+                    timerContainer.classList.add("alert-warning", "fw-bold", "text-danger");
+                    timerDisplay.textContent = `Time is almost up... ${minutes}:${seconds.toString().padStart(2, "0")}`;
+                } else {
+                    timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+                }
+
+                remainingSeconds--;
+            }
+
+            updateTimer();
+            const timerInterval = setInterval(updateTimer, 1000);
+        </script>
+    }
+
+    <script>
+        const attemptId = '@Model.AttemptVm.AttemptId';
+        const endpoint = '/Quizzes/Take/@Model.Id?handler=SaveAnswers';
+
+        const SYNC_INTERVAL = 30000;
+        
+        function getQuizAnswers() {
+            const answers = {};
+
+            document.querySelectorAll('[name^="AttemptVm.Questions["]').forEach(input => {
+                const match = input.name.match(/AttemptVm\.Questions\[(\d+)\]\.SelectedChoiceIds/);
+                if (!match) return;
+
+                const index = match[1];
+                const questionIdInput = document.querySelector(`[name="AttemptVm.Questions[${index}].QuestionId"]`);
+                if (!questionIdInput) return;
+
+                const questionId = questionIdInput.value;
+                const checked = document.querySelectorAll(`input[name="AttemptVm.Questions[${index}].SelectedChoiceIds"]:checked`);
+
+                answers[questionId] = Array.from(checked).map(el => el.value);
+            });
+
+            return answers;
+        }
+
+        async function syncWithServer() {
+            const answers = getQuizAnswers();
+
+            try {
+                await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({
+                        attemptId: attemptId,
+                        answers: answers
+                    })
+                });
+            } catch (err) {
+                console.warn("Failed to sync quiz answers:", err);
+            }
+        }
+
+        document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => {
+            el.addEventListener('change', syncWithServer);
+        });
+
+		setInterval(syncWithServer, SYNC_INTERVAL);
+    </script>
+}

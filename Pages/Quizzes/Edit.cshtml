@@ -1,0 +1,119 @@
+﻿@page "{id:guid}"
+@model Quizard.Pages.Quizzes.EditModel
+@{
+    ViewData["Title"] = "Edit Quiz";
+}
+
+<div class="row">
+    <!-- LEFT COLUMN: Quiz details and linked questions -->
+    <div class="col-12 col-lg-7">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Edit Quiz</h2>
+        </div>
+
+        <form method="post" class="mb-4">
+            <input type="hidden" asp-for="QuizVm.Id" />
+
+            <div class="mb-3">
+                <label asp-for="QuizVm.Title" class="form-label"></label>
+                <input asp-for="QuizVm.Title" class="form-control" />
+                <span asp-validation-for="QuizVm.Title" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="QuizVm.Description" class="form-label"></label>
+                <textarea asp-for="QuizVm.Description" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="QuizVm.TimeLimit" class="form-label"></label>
+                <input asp-for="QuizVm.TimeLimit" class="form-control" />
+                <span asp-validation-for="QuizVm.TimeLimit" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="QuizVm.IsRandomOrder" class="form-check-input" />
+                <label asp-for="QuizVm.IsRandomOrder" class="form-check-label"></label>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a asp-page="Index" class="btn btn-secondary ms-2">Back</a>
+        </form>
+
+        <h4 class="my-4">Questions in This Quiz</h4>
+
+        @if (!Model.QuizVm.Questions.Any())
+        {
+            <p class="text-muted">No questions linked to this quiz.</p>
+        }
+        else
+        {
+            <ul class="list-group mb-4">
+                @for (int i = 0; i < Model.QuizVm.Questions.Count; i++)
+                {
+                    var question = Model.QuizVm.Questions[i];
+                    <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                        <span class="me-3">@(question.Order + 1) - @question.Text</span>
+                        <div class="btn-group">
+                            <form method="post" asp-page-handler="ReorderQuestion"
+                                  asp-route-questionId="@question.QuestionId"
+                                  asp-route-dir="Up">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary me-1" @(i == 0 ? "disabled" : "")>
+                                    <i class="bi bi-arrow-up"></i>
+                                </button>
+                            </form>
+                            <form method="post" asp-page-handler="ReorderQuestion"
+                                  asp-route-questionId="@question.QuestionId"
+                                  asp-route-dir="Down">
+                                <button type="submit" class="btn btn-sm btn-outline-secondary me-1" @(i == Model.QuizVm.Questions.Count - 1 ? "disabled" : "")>
+                                    <i class="bi bi-arrow-down"></i>
+                                </button>
+                            </form>
+                            <form method="post" asp-page-handler="RemoveQuestion" asp-route-questionId="@question.QuestionId">
+                                <button type="submit" class="btn btn-sm btn-danger" title="Remove">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+
+    <!-- RIGHT COLUMN: Question bank -->
+    <div class="col-12 col-lg-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Question Bank</h2>
+        </div>
+
+        <div class="form-label">Select Questions to add to your Quiz</div>
+
+        @if (!Model.QuestionBank.Any())
+        {
+            <p class="text-muted">No questions available.</p>
+        }
+        else
+        {
+            <ul class="list-group">
+                @foreach (var question in Model.QuestionBank)
+                {
+                    var alreadyAdded = Model.QuizVm.Questions.Any(q => q.QuestionId == question.Id);
+                    if (!alreadyAdded)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                            <span class="me-3">@question.Text</span>
+                            <form method="post" asp-page-handler="AddQuestion" asp-route-questionId="@question.Id">
+                                <button type="submit" class="btn btn-sm btn-primary">Add</button>
+                            </form>
+                        </li>
+                    }
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

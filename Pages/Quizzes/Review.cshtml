@@ -1,0 +1,91 @@
+﻿@page "{id:guid}"
+@model Quizard.Pages.Quizzes.ReviewModel
+@{
+    ViewData["Title"] = "Quiz Result";
+}
+
+<div class="card shadow-sm border-0 rounded-2 p-2">
+    <div class="card-body">
+        @if (Model.Attempt != null)
+        {
+            <h2 class="card-title text-success mb-4">
+                <i class="bi bi-check-circle-fill me-2"></i> Quiz Completed
+            </h2>
+
+            <div class="mb-4">
+                <h4 class="fw-bold">@Model.Attempt.Quiz.Title</h4>
+                <p class="mt-4">
+                    <strong>Score:</strong>
+                    <span class="badge bg-success rounded-3 px-3 py-2 fw-6 ms-1">
+                        @Model.Attempt.Score%
+                    </span>
+                </p>
+                <p class="mb-0">
+                    <strong class="me-2">Completed on:</strong>
+                    @Model.Attempt.CompletedOn?.ToLocalTime().ToString("g")
+                </p>
+            </div>
+
+            <hr class="my-4" />
+
+            <div>
+                <h5 class="fw-bold mb-3">Review Your Answers</h5>
+                <div class="vstack gap-4">
+                    @foreach (var review in Model.AnswerVms)
+                    {
+                        var answer = review.QuizAnswer;
+                        var question = answer.Question;
+                        var selectedIds = answer.AnswerChoices.Select(ac => ac.ChoiceId).ToList();
+                        var isCorrect = review.IsCorrect;
+
+                        var questionClass = isCorrect ? "text-success" : "text-danger";
+
+                        <div>
+                            <div class="fw-semibold mb-2 @questionClass">@question.Text</div>
+                            <div class="row row-cols-1 row-cols-sm-2 g-2">
+                                @foreach (var choice in question.Choices)
+                                {
+                                    var isSelected = selectedIds.Contains(choice.Id);
+                                    var isCorrectChoice = choice.IsCorrect;
+
+                                    string css, icon;
+
+                                    if (isSelected && isCorrectChoice)
+                                    {
+                                        css = "border-success bg-light text-success fw-bold";
+                                        icon = "bi-check-circle-fill";
+                                    }
+                                    else if (isSelected && !isCorrectChoice)
+                                    {
+                                        css = "border-danger bg-light text-danger fw-bold";
+                                        icon = "bi-x-circle-fill";
+                                    }
+                                    else if (!isSelected && isCorrectChoice)
+                                    {
+                                        css = "border-success text-success text-decoration-underline";
+                                        icon = "bi-check-lg";
+                                    }
+                                    else
+                                    {
+                                        css = "border-muted text-muted";
+                                        icon = "bi-dot";
+                                    }
+
+                                    <div class="col">
+                                        <div class="border rounded p-2 d-flex align-items-center gap-2 @css">
+                                            <i class="bi @icon"></i> @choice.Text
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">Result not found.</div>
+        }
+    </div>
+</div>

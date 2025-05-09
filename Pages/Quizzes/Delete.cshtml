@@ -1,0 +1,46 @@
+﻿@page "{id:guid}"
+@model DeleteModel
+@{
+    ViewData["Title"] = "Delete Quiz";
+}
+
+<div class="card shadow-sm border-0 rounded-2 p-2">
+    <div class="card-body">
+        <h2 class="card-title text-danger mb-3">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> Delete Quiz
+        </h2>
+
+        @if (Model.Quiz != null)
+        {
+            <div class="alert alert-warning">
+                <strong>Are you sure?</strong> This action cannot be undone. The quiz and all related data will be permanently removed.
+            </div>
+
+            <dl class="row mb-4">
+                <dt class="col-sm-3 text-muted">Title</dt>
+                <dd class="col-sm-9 fw-semibold">@Model.Quiz.Title</dd>
+
+                <dt class="col-sm-3 text-muted">Description</dt>
+                <dd class="col-sm-9">@Model.Quiz.Description</dd>
+
+                <dt class="col-sm-3 text-muted">Time Limit</dt>
+                <dd class="col-sm-9">
+                    @(Model.Quiz.TimeLimit?.TotalMinutes + " min" ?? "None")
+                </dd>
+            </dl>
+
+            <form method="post" class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash me-1"></i> Confirm Delete
+                </button>
+                <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                Quiz not found.
+            </div>
+        }
+    </div>
+</div>

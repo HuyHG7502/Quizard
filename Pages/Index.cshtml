@@ -1,0 +1,40 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Hero Section -->
+<div class="text-center py-5 mb-4" style="position: relative;">
+    <h1 class="display-1 fw-bold" style="color: firebrick;">Quizard</h1>
+    <p class="lead fw-medium fs-4" style="color: firebrick">A simple quiz system for educational purposes.</p>
+</div>
+
+<!-- Features Section -->
+<div class="row g-4 justify-content-center mb-4">
+    <div class="col-sm-5">
+        <div class="card h-100 shadow-sm border border-primary">
+            <div class="d-flex flex-column card-body text-center">
+                <h5 class="card-title text-primary">
+                    <i class="bi bi-question-square display-4 d-block mb-3 text-primary"></i>
+                    Questions
+                </h5>
+                <p class="card-text text-muted flex-grow-1">Build a personalized question bank with multiple choice questions for your quizzes.</p>
+                <a asp-page="/Questions/Index" class="btn btn-outline-primary justify-self-end">Manage Questions</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <div class="card h-100 shadow-sm border border-success">
+            <div class="d-flex flex-column card-body text-center">
+                <h5 class="card-title text-success">
+                    <i class="bi bi-card-list display-4 d-block mb-3 text-success"></i>
+                    Quizzes
+                </h5>
+                <p class="card-text text-muted flex-grow-1">Create and organize quizzes, or jump right into one now!</p>
+                <a asp-page="/Quizzes/Index" class="btn btn-outline-success justify-self-end">Manage Quizzes</a>
+            </div>
+        </div>
+    </div>
+</div>
+

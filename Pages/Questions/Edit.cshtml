@@ -1,0 +1,56 @@
+﻿@page "{id:guid}"
+@model EditModel
+@{
+    ViewData["Title"] = "Edit Question";
+}
+
+<div class="card shadow-sm rounded-2 border-0 mb-5 p-2">
+    <div class="card-body">
+        <h2 class="card-title mb-4">Edit Question</h2>
+
+        <form method="post">
+            <input type="hidden" asp-for="QuestionVm.Id" />
+
+            <div class="mb-4">
+                <label asp-for="QuestionVm.Text" class="form-label fw-semibold"></label>
+                <input asp-for="QuestionVm.Text" class="form-control" />
+                <span asp-validation-for="QuestionVm.Text" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="QuestionVm.IsMultiSelect" class="form-check-input" />
+                <label asp-for="QuestionVm.IsMultiSelect" class="form-check-label fw-semibold"></label>
+            </div>
+
+            <h6 class="mb-3">Choices</h6>
+            <div class="row row-cols-1 row-cols-sm-2 g-4">
+                @for (int i = 0; i < Model.QuestionVm.Choices.Count; i++)
+                {
+                    <input type="hidden" asp-for="QuestionVm.Choices[@i].Id" />
+
+                    <div class="col">
+                        <div class="border rounded p-3 h-100">
+                            <div class="mb-2">
+                                <label asp-for="QuestionVm.Choices[@i].Text" class="form-label">Choice @(i + 1)</label>
+                                <input asp-for="QuestionVm.Choices[@i].Text" class="form-control" />
+                            </div>
+                            <div class="form-check form-switch">
+                                <input asp-for="QuestionVm.Choices[@i].IsCorrect" class="form-check-input" />
+                                <label asp-for="QuestionVm.Choices[@i].IsCorrect" class="form-check-label">Correct Answer</label>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="mt-4 d-flex justify-content-end gap-2">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a asp-page="/Questions/Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
